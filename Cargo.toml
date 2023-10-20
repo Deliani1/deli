@@ -1,2 +1,3 @@
 [workspace]
 members = ["deli", "deli-derive"]
+resolver = "2"

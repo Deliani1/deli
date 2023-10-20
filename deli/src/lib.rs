@@ -9,7 +9,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! deli = "0.2"
+//! deli = "<latest-version>"
 //! ```
 //!
 //! `deli` is intended to be used on browsers using webassembly. So, make sure to compile your project with
@@ -79,8 +79,22 @@
 //! ```rust
 //! use deli::{Database, Error};
 //!
+//! # use deli::Model;
+//! # use serde::{Deserialize, Serialize};
+//! #
+//! # #[derive(Serialize, Deserialize, Model)]
+//! # pub struct Employee {
+//! #     #[deli(auto_increment)]
+//! #     pub id: u32,
+//! #     pub name: String,
+//! #     #[deli(unique)]
+//! #     pub email: String,
+//! #     #[deli(index)]
+//! #     pub age: u8,
+//! # }
+//! #
 //! async fn create_database() -> Result<Database, Error> {
-//!     let database = Database::builder("test_db", 1).register_model::<Employee>().await?;
+//!     let database = Database::builder("test_db".to_string()).version(1).register_model::<Employee>().await?;
 //! }
 //! ```
 //!
@@ -91,6 +105,20 @@
 //! ```rust
 //! use deli::{Database, Error, Transaction};
 //!
+//! # use deli::Model;
+//! # use serde::{Deserialize, Serialize};
+//! #
+//! # #[derive(Serialize, Deserialize, Model)]
+//! # pub struct Employee {
+//! #     #[deli(auto_increment)]
+//! #     pub id: u32,
+//! #     pub name: String,
+//! #     #[deli(unique)]
+//! #     pub email: String,
+//! #     #[deli(index)]
+//! #     pub age: u8,
+//! # }
+//! #
 //! fn create_read_transaction(database: &Database) -> Result<Transaction, Error> {
 //!     database.transaction().with_model::<Employee>().build()
 //! }
@@ -110,6 +138,20 @@
 //! ```rust
 //! use deli::{Error, Transaction};
 //!
+//! # use deli::Model;
+//! # use serde::{Deserialize, Serialize};
+//! #
+//! # #[derive(Serialize, Deserialize, Model)]
+//! # pub struct Employee {
+//! #     #[deli(auto_increment)]
+//! #     pub id: u32,
+//! #     pub name: String,
+//! #     #[deli(unique)]
+//! #     pub email: String,
+//! #     #[deli(index)]
+//! #     pub age: u8,
+//! # }
+//! #
 //! async fn add_employee(transaction: &Transaction) -> Result<u32, Error> {
 //!     Employee::with_transaction(transaction)?.add("Alice", "alice@example.com", &25).await
 //! }
@@ -137,6 +179,8 @@
 //! After all your writes are done, you can commit the transaction:
 //!
 //! ```rust
+//! use deli::{Error, Transaction};
+//!
 //! async fn commit_transaction(transaction: Transaction) -> Result<(), Error> {
 //!     transaction.commit().await
 //! }

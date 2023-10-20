@@ -16,11 +16,11 @@ edition = "2021"
 [dependencies]
 deli-derive = { version = "0.1.1", path = "../deli-derive" }
 idb = "0.4.1"
-serde = "1.0.163"
-serde-wasm-bindgen = "0.5.0"
-serde_json = "1.0.96"
-thiserror = "1.0.40"
+serde = "1.0.189"
+serde-wasm-bindgen = "0.6.0"
+serde_json = "1.0.107"
+thiserror = "1.0.50"
 
 [dev-dependencies]
-serde = { version = "1.0.163", features = ["derive"] }
-wasm-bindgen-test = "0.3.36"
+serde = { version = "1.0.189", features = ["derive"] }
+wasm-bindgen-test = "0.3.37"
